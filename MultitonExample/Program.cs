@@ -15,11 +15,15 @@ namespace MultitonExample
 
             var policyManager = new PolicyManager();
 
+            // Set 2 different references to be the car policy
             var policyCarA = policyManager.GetActivePolicy("Car");
             var policyCarB = policyManager.GetActivePolicy("Car");
+
+            // Set 2 different references to be the house policy
             var policyHouseA = policyManager.GetActivePolicy("House");
             var policyHouseB = policyManager.GetActivePolicy("House");
 
+            // Show that the multiton got the same object twice
             Console.WriteLine("Car Policy A ID: {0}", policyCarA.Id);
             Console.WriteLine("Car Policy B ID: {0}", policyCarB.Id);
 
@@ -41,17 +45,26 @@ namespace MultitonExample
         
         public Policy(string type)
         {
+            // When creating a new policy, generate a new Guid to prove that the multiton is doing it's job
             Id = Guid.NewGuid();
 
             Type = type;
         }
     }
 
+    /// <summary>
+    /// Provides access to policies.
+    /// </summary>
     public class PolicyManager
     {
-        // Can be static
+        // This can be static in a console/desktop application, just be wary of potential memory issues
         private Dictionary<string, Policy> _policies = new Dictionary<string, Policy>();
 
+        /// <summary>
+        /// Get the current active policy of the given type.
+        /// </summary>
+        /// <param name="type">The type of policy to retrieve.</param>
+        /// <returns>The current active policy of the given type</returns>
         public Policy GetActivePolicy(string type)
         {
             if (!_policies.ContainsKey(type))
